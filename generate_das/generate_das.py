@@ -112,31 +112,37 @@ pyautogui.press('enter')
 
 # CLICK CHECKBOX MONTH
 loading_screen('component_header_month')
-positionMonth = {
-    1: pyautogui.locateOnScreen('images/jan.png', confidence=0.95),
-    2: pyautogui.locateOnScreen('images/fev.png', confidence=0.95),
-    3: pyautogui.locateOnScreen('images/mar.png', confidence=0.95),
-    4: pyautogui.locateOnScreen('images/abr.png', confidence=0.95),
-    5: pyautogui.locateOnScreen('images/mai.png', confidence=0.95),
-    6: pyautogui.locateOnScreen('images/jun.png', confidence=0.95),
-    7: pyautogui.locateOnScreen('images/jul.png', confidence=0.95),
-    8: pyautogui.locateOnScreen('images/ago.png', confidence=0.95),
-    9: pyautogui.locateOnScreen('images/set.png', confidence=0.95),
-    10: pyautogui.locateOnScreen('images/out.png', confidence=0.95),
-    11: pyautogui.locateOnScreen('images/nov.png', confidence=0.95),
-    12: pyautogui.locateOnScreen('images/dez.png', confidence=0.95),
+tab_presses = {
+    1: 9,
+    2: 11,
+    3: 13,
+    4: 15,
+    5: 17,
+    6: 19,
+    7: 21,
+    8: 23,
+    9: 25,
+    10: 27,
+    11: 29,
+    12: 9
 }
 
-month_pay = actual_month
+# Obtendo o mês atual
+current_month = datetime.now().month
 
-if not auto & month:
-    month_pay = month
-else:
-    month_pay = actual_month == 1 if 12 else actual_month - 1
+# Calculando o número de pressionamentos de tecla TAB necessários
+num_tab_presses = tab_presses[current_month - 1]
 
-pyautogui.click(positionMonth[month_pay].left + 10, positionMonth[month_pay].top + 10)
+# Pressionando a tecla TAB o número de vezes necessário
+for i in range(num_tab_presses):
+    pyautogui.press('tab')
+
+# Clicando no checkbox do mês anterior
+pyautogui.press('space')
+
 
 # CLICK GENERATE DAS
+
 generate_das = pyautogui.locateCenterOnScreen('images/btn_generate_das.png')
 pyautogui.click(generate_das.x, generate_das.y)
 
