@@ -141,7 +141,10 @@ pyautogui.press('tab', num_tab_presses)
 pyautogui.press('space')
 
 # CLICK GENERATE DAS
-pyautogui.press('tab', presses=6)
+pyautogui.press('pgdn')
+pyautogui.sleep(1)
+generate_das = pyautogui.locateCenterOnScreen('images/btn_generate_das.png', confidence=0.95)
+pyautogui.click(generate_das.x, generate_das.y)
 
 # BAIXAR PDF
 loading_screen('component_modal_success', "component_modal_warning")
