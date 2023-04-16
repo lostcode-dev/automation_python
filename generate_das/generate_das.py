@@ -124,27 +124,24 @@ tab_presses = {
     9: 25,
     10: 27,
     11: 29,
-    12: 9
+    12: 31
 }
 
 # Obtendo o mês atual
 current_month = datetime.now().month
 
 # Calculando o número de pressionamentos de tecla TAB necessários
-num_tab_presses = tab_presses[current_month - 1]
+month_pay = 12 if current_month == 1 else current_month - 1
+num_tab_presses = tab_presses[month_pay]
 
 # Pressionando a tecla TAB o número de vezes necessário
-for i in range(num_tab_presses):
-    pyautogui.press('tab')
+pyautogui.press('tab', num_tab_presses)
 
 # Clicando no checkbox do mês anterior
 pyautogui.press('space')
 
-
 # CLICK GENERATE DAS
-
-generate_das = pyautogui.locateCenterOnScreen('images/btn_generate_das.png')
-pyautogui.click(generate_das.x, generate_das.y)
+pyautogui.press('tab', presses=6)
 
 # BAIXAR PDF
 loading_screen('component_modal_success', "component_modal_warning")
