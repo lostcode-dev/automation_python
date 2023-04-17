@@ -142,7 +142,7 @@ pyautogui.press('space')
 
 # CLICK GENERATE DAS
 pyautogui.press('pgdn')
-pyautogui.sleep(1)
+loading_screen('btn_generate_das')
 generate_das = pyautogui.locateCenterOnScreen('images/btn_generate_das.png', confidence=0.95)
 pyautogui.click(generate_das.x, generate_das.y)
 
