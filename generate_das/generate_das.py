@@ -148,6 +148,6 @@ pyautogui.click(generate_das.x, generate_das.y)
 
 # BAIXAR PDF
 loading_screen('component_modal_success', "component_modal_warning")
-download_pdf = pyautogui.locateCenterOnScreen('images/btn_download_pdf.png')
-pyautogui.click(download_pdf.x, download_pdf.y)
+pyautogui.press('tab', presses=6)
+pyautogui.press('enter')
 close_tab()
