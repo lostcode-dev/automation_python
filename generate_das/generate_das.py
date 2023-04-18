@@ -73,14 +73,13 @@ loading_screen('login')
 pyautogui.typewrite(cnpj)
 
 # LOGIN
-continue_btn = pyautogui.locateCenterOnScreen('images/btn_continue.png')
 pyautogui.press('tab', presses=3)
 pyautogui.press('enter')
 
 # CLICK EMITIR GUIA
 loading_screen('home')
-link_emit_guia = pyautogui.locateCenterOnScreen('images/link_emit_guia.png', confidence=0.8)
-pyautogui.click(link_emit_guia.x, link_emit_guia.y)
+pyautogui.press('tab', presses=2)
+pyautogui.press('enter')
 
 # CLICK SELECT ANO
 loading_screen('screen_year')
