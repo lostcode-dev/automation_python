@@ -74,8 +74,8 @@ pyautogui.typewrite(cnpj)
 
 # LOGIN
 continue_btn = pyautogui.locateCenterOnScreen('images/btn_continue.png')
-pyautogui.moveTo(continue_btn.x, continue_btn.y, duration=0.2)
-pyautogui.click(continue_btn.x, continue_btn.y)
+pyautogui.press('tab', presses=3)
+pyautogui.press('enter')
 
 # CLICK EMITIR GUIA
 loading_screen('home')
