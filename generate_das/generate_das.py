@@ -111,34 +111,39 @@ pyautogui.press('enter')
 
 # CLICK CHECKBOX MONTH
 loading_screen('component_header_month')
-tab_presses = {
-    1: 9,
-    2: 11,
-    3: 13,
-    4: 15,
-    5: 17,
-    6: 19,
-    7: 21,
-    8: 23,
-    9: 25,
-    10: 27,
-    11: 29,
-    12: 31
-}
+# tab_presses = {
+#     1: 9,
+#     2: 11,
+#     3: 13,
+#     4: 15,
+#     5: 17,
+#     6: 19,
+#     7: 21,
+#     8: 23,
+#     9: 25,
+#     10: 27,
+#     11: 29,
+#     12: 31
+# }
+
+def calculateNumTabPresses(month):
+    num_presses = 7 + (2*month)
+    return num_presses
+
 
 # Obtendo o mês atual
 current_month = datetime.now().month
 
 # Calculando o número de pressionamentos de tecla TAB necessários
 month_pay = 12 if current_month == 1 else current_month - 1
-num_tab_presses = tab_presses[month_pay]
+num_tab_presses = calculateNumTabPresses(month_pay)
 
 # Pressionando a tecla TAB o número de vezes necessário
 pyautogui.press('tab', num_tab_presses)
 
 # Clicando no checkbox do mês anterior
 pyautogui.press('space')
-
+exit()
 # CLICK GENERATE DAS
 pyautogui.press('pgdn')
 loading_screen('btn_generate_das')
