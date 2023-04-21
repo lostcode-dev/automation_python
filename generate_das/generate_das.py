@@ -1,7 +1,7 @@
 import pyautogui
 from datetime import datetime
 import os
-
+import platform
 
 def close_tab():
     pyautogui.keyDown('ctrl')
@@ -60,8 +60,19 @@ def getYear():
 
 
 def calculateNumTabPresses(month):
-    num_presses = 7 + (2*month)
+    month_pay = 12 if month == 1 else month - 1
+    num_presses = 7 + (2*month_pay)
     return num_presses
+
+
+def open_receita_website():
+    if platform.system() == 'Windows':
+        os.system('start chrome {}'.format('http://www8.receita.fazenda.gov.br/SimplesNacional/Aplicacoes/ATSPO/pgmei.app/Identificacao'))
+    elif platform.system() == 'Linux':
+        os.system('google-chrome {}'.format('http://www8.receita.fazenda.gov.br/SimplesNacional/Aplicacoes/ATSPO/pgmei.app/Identificacao'))
+    elif platform.system() == 'Darwin':
+        os.system('open -a /Applications/Google\ Chrome.app {}'.format('http://www8.receita.fazenda.gov.br/SimplesNacional/Aplicacoes/ATSPO/pgmei.app/Identificacao'))
+
 
 
 cnpj = getCnpj()
@@ -72,8 +83,7 @@ actual_month = datetime.now().month
 actual_year = datetime.now().year
 
 # ACESSAR NAVEGADOR
-os.system('start chrome {}'.format('http://www8.receita.fazenda.gov.br/SimplesNacional/Aplicacoes/ATSPO/pgmei.app/Identificacao'))
-# os.system ('google-chrome http://www8.receita.fazenda.gov.br/SimplesNacional/Aplicacoes/ATSPO/pgmei.app/Identificacao' )
+open_receita_website()
 loading_screen('login')
 pyautogui.typewrite(cnpj)
 
@@ -118,8 +128,7 @@ pyautogui.press('enter')
 loading_screen('component_header_month')
 
 # Calculando o número de pressionamentos de tecla TAB necessários
-month_pay = 12 if actual_month == 1 else actual_month - 1
-num_tab_presses = calculateNumTabPresses(month_pay)
+num_tab_presses = calculateNumTabPresses(actual_month)
 
 # Pressionando a tecla TAB o número de vezes necessário
 pyautogui.press('tab', num_tab_presses)
