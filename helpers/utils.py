@@ -21,14 +21,14 @@ def loading_screen(screen: object, image_error: object = "") -> object:
 
 
 def getCnpj():
-    with open("../config/env.txt", "r") as configFile:
+    with open("../env.txt", "r") as configFile:
         content = configFile.readlines()
         cnpjInFile = [i for i in content if "CNPJ=" in i]
         return cnpjInFile[0][5:-1]
 
 
 def getAuto():
-    with open("../config/env.txt", "r") as configFile:
+    with open("../env.txt", "r") as configFile:
         content = configFile.readlines()
         autoInFile = [i for i in content if "AUTO=" in i]
         if autoInFile[0][5:-1].lower() == "true":
@@ -38,7 +38,7 @@ def getAuto():
 
 
 def getMonth():
-    with open("../config/env.txt", "r") as configFile:
+    with open("../env.txt", "r") as configFile:
         content = configFile.readlines()
         monthInFile = [i for i in content if "MONTH=" in i]
         if int(monthInFile[0][6:-1]) > 0:
@@ -48,7 +48,7 @@ def getMonth():
 
 
 def getYear():
-    with open("../config/env.txt", "r") as configFile:
+    with open("../env.txt", "r") as configFile:
         content = configFile.readlines()
         yearInFile = [i for i in content if "YEAR=" in i]
         if int(yearInFile[0][5:-1]) > 0:
