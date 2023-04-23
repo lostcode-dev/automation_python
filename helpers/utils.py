@@ -1,6 +1,8 @@
 import pyautogui
 import os
 import platform
+
+
 def close_tab():
     pyautogui.keyDown('ctrl')
     pyautogui.press('w')
