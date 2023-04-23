@@ -2,24 +2,23 @@ import PySimpleGUI as sg
 
 
 layout = [
-    [sg.Text("Gerar Boleto de Pagamento")],
     [sg.Button("Gerar DAS")],
     [sg.Button("Emitir Nota Fiscal")],
     [sg.Button("Configurações")],
 ]
 
-janela = sg.Window("DAS Automation", layout, size=(270, 140))
+window = sg.Window("MEI Automation", layout, size=(270, 120))
 
 
 while True:
-    evento, valores = janela.read()
-    if evento == sg.WIN_CLOSED:
+    event, value = window.read()
+    if event == sg.WIN_CLOSED:
         break
-    if evento == "Gerar DAS":
+    if event == "Gerar DAS":
         print("Gerando DAS")
-    if evento == "Emitir Nota Fiscal":
+    if event == "Emitir Nota Fiscal":
         print("Emitindo Nota Fiscal")
-    if evento == "Configurações":
+    if event == "Configurações":
         print("Configurando")
 
-janela.close()
+window.close()
