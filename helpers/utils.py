@@ -1,6 +1,6 @@
 import pyautogui
-import os
 import platform
+import os
 
 
 def close_tab():
@@ -11,49 +11,61 @@ def close_tab():
 
 def loading_screen(screen: object, image_error: object = "") -> object:
     loading = pyautogui.locateOnScreen(f'images/{screen}.png', confidence=0.8)
+    count = 0;
     while loading is None:
         pyautogui.sleep(0.5)
         loading = pyautogui.locateOnScreen(f'images/{screen}.png', confidence=0.8)
         error = False
+        count += 1
         if image_error:
             error = pyautogui.locateOnScreen(f'images/{image_error}.png', confidence=0.8)
         if error:
             close_tab()
             exit()
+        if count == 10:
+            break
+
 
 
 def getCnpj():
-    with open("../env.txt", "r") as configFile:
+    with open("env.txt", "r") as configFile:
         content = configFile.readlines()
         cnpjInFile = [i for i in content if "cnpj =" in i]
         return cnpjInFile[0][7:-1]
 
 
 def getAuto():
-    with open("../env.txt", "r") as configFile:
+    with open("env.txt", "r") as configFile:
         content = configFile.readlines()
-        autoInFile = [i for i in content if "auto =" in i]
-        if autoInFile[0][7:-1].lower() == "true":
+        autoInFile = [i for i in content if "auto =" in i][0]
+        containsData = autoInFile[7:-1].lower()  != ''
+        itsTrue = autoInFile[7:-1].lower() == "true"
+
+        if containsData and itsTrue:
             return True
         else:
             return False
 
 
 def getMonth():
-    with open("../env.txt", "r") as configFile:
+    with open("env.txt", "r") as configFile:
         content = configFile.readlines()
-        monthInFile = [i for i in content if "month =" in i]
-        if int(monthInFile[0][8:-1]) > 0:
+        monthInFile = [i for i in content if "month =" in i][0]
+        containsData = monthInFile[8:-1]  != ''
+
+        if containsData and int(monthInFile[8:-1]) > 0:
             return int(monthInFile[0][8:-1])
         else:
             return 0
 
 
 def getYear():
-    with open("../env.txt", "r") as configFile:
+    with open("env.txt", "r") as configFile:
         content = configFile.readlines()
-        yearInFile = [i for i in content if "year =" in i]
-        if int(yearInFile[0][7:-1]) > 0:
+        yearInFile = [i for i in content if "year =" in i][0]
+        containsData = yearInFile[7:-1]  != ''
+
+        if containsData and int(yearInFile[7:-1]) > 0:
             return int(yearInFile[0][7:-1])
         else:
             return 0
@@ -65,10 +77,10 @@ def calculateNumTabPresses(month):
     return num_presses
 
 
-def open_receita_website():
+def open_browser(link):
     if platform.system() == 'Windows':
-        os.system('start chrome {}'.format('http://www8.receita.fazenda.gov.br/SimplesNacional/Aplicacoes/ATSPO/pgmei.app/Identificacao'))
+        os.system('start chrome {}'.format(link))
     elif platform.system() == 'Linux':
-        os.system('google-chrome {}'.format('http://www8.receita.fazenda.gov.br/SimplesNacional/Aplicacoes/ATSPO/pgmei.app/Identificacao'))
+        os.system('google-chrome {}'.format(link))
     elif platform.system() == 'Darwin':
-        os.system('open -a /Applications/Google\ Chrome.app {}'.format('http://www8.receita.fazenda.gov.br/SimplesNacional/Aplicacoes/ATSPO/pgmei.app/Identificacao'))
+        os.system('open -a /Applications/Google\ Chrome.app {}'.format(link))

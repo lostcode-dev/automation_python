@@ -1,4 +1,7 @@
 import PySimpleGUI as sg
+from generate_das.generate_das import run as run_generate_das
+from emit_nf.emit_nf import run as run_emit_nf
+from pages.config import run as run_config
 
 
 layout = [
@@ -9,16 +12,17 @@ layout = [
 
 window = sg.Window("MEI Automation", layout, size=(270, 120))
 
+def run():
+    while True:
+        event, value = window.read()
+        if event == sg.WIN_CLOSED:
+            break
+        if event == "Gerar DAS":
+            run_generate_das()
+        if event == "Emitir Nota Fiscal":
+            run_emit_nf()
+        if event == "Configurações":
+            run_config()
+            print("Configurando")
 
-while True:
-    event, value = window.read()
-    if event == sg.WIN_CLOSED:
-        break
-    if event == "Gerar DAS":
-        print("Gerando DAS")
-    if event == "Emitir Nota Fiscal":
-        print("Emitindo Nota Fiscal")
-    if event == "Configurações":
-        print("Configurando")
-
-window.close()
+    window.close()
