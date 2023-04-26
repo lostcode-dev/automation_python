@@ -18,13 +18,22 @@ def returnMonth(month=None):
         return ""
 
 def run():
+    layout_tab_generate_das = [
+                [sg.Text ( "Mês:" ), sg.Combo ( returnMonth (),  size=(14, 1), key="-MONTH-", enable_events=True )],
+                [sg.Text ( "Ano:" ), sg.Combo ( select_year (), size=(6, 1), key="-YEAR-" )],
+                [sg.Checkbox ( 'Auto', default=False, key="-AUTO-", enable_events=True)],
+            ]
+
+    layout_tab_emit_nf = [ [sg.Text ( "Emitit NF" )]]
+
     layout = [
         [sg.Text ( "Dados Pessoais" )],
-        [sg.Text ( "CNPJ:" ), sg.Input ( size=(14, 1), key="-CNPJ-", enable_events=True )],
-        [sg.Text ( "Gerar DAS" )],
-        [sg.Text ( "Mês:" ), sg.Combo ( returnMonth (), key="-MONTH-", enable_events=True )],
-        [sg.Text ( "Ano:" ), sg.Combo ( select_year (), size=(4, 1), key="-YEAR-" )],
-        [sg.Checkbox ( 'Auto', default=False, key="-AUTO-", enable_events=True )],
+        [sg.Text ( "CNPJ:" ), sg.Input ( size=(14, 1), key="-CNPJ-", enable_events=True, expand_x=True )],
+        [sg.TabGroup ([[
+            sg.Tab ( 'Gerar DAS', layout_tab_generate_das),
+            sg.Tab ( 'Emitir NF',  layout_tab_emit_nf)
+        ]], expand_x=True)],
+
         [sg.Button ( "Salvar", key="-SAVE-", disabled=True )],
     ]
 
