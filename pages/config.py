@@ -24,7 +24,12 @@ def run():
                 [sg.Checkbox ( 'Auto', default=False, key="-AUTO-", enable_events=True)],
             ]
 
-    layout_tab_emit_nf = [ [sg.Text ( "Emitit NF" )]]
+    layout_tab_emit_nf = [
+        [sg.Text ( "CPF:" ), sg.Input ( size=(8, 1), key="-CPF-", enable_events=True, expand_x=True )],
+        [sg.Text ( "Password:" ), sg.Input ( size=(8, 1), key="-PASSWORD-", enable_events=True, expand_x=True )],
+        [sg.Text ( "CNPJ:" ), sg.Input ( size=(8, 1), key="-CNPJ_CLIENTE-", enable_events=True, expand_x=True )],
+
+    ]
 
     layout = [
         [sg.Text ( "Dados Pessoais" )],
