@@ -1,6 +1,6 @@
 import pyautogui
-import os
 import platform
+import os
 
 
 def close_tab():
@@ -11,26 +11,31 @@ def close_tab():
 
 def loading_screen(screen: object, image_error: object = "") -> object:
     loading = pyautogui.locateOnScreen(f'images/{screen}.png', confidence=0.8)
+    count = 0;
     while loading is None:
         pyautogui.sleep(0.5)
         loading = pyautogui.locateOnScreen(f'images/{screen}.png', confidence=0.8)
         error = False
+        count += 1
         if image_error:
             error = pyautogui.locateOnScreen(f'images/{image_error}.png', confidence=0.8)
         if error:
             close_tab()
             exit()
+        if count == 10:
+            break
+
 
 
 def getCnpj():
-    with open("../env.txt", "r") as configFile:
+    with open("env.txt", "r") as configFile:
         content = configFile.readlines()
         cnpjInFile = [i for i in content if "CNPJ=" in i]
         return cnpjInFile[0][5:-1]
 
 
 def getAuto():
-    with open("../env.txt", "r") as configFile:
+    with open("env.txt", "r") as configFile:
         content = configFile.readlines()
         autoInFile = [i for i in content if "AUTO=" in i]
         if autoInFile[0][5:-1].lower() == "true":
@@ -40,7 +45,7 @@ def getAuto():
 
 
 def getMonth():
-    with open("../env.txt", "r") as configFile:
+    with open("env.txt", "r") as configFile:
         content = configFile.readlines()
         monthInFile = [i for i in content if "MONTH=" in i]
         if int(monthInFile[0][6:-1]) > 0:
@@ -50,7 +55,7 @@ def getMonth():
 
 
 def getYear():
-    with open("../env.txt", "r") as configFile:
+    with open("env.txt", "r") as configFile:
         content = configFile.readlines()
         yearInFile = [i for i in content if "YEAR=" in i]
         if int(yearInFile[0][5:-1]) > 0:
