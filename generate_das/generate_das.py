@@ -7,10 +7,10 @@ from helpers.utils import getAuto
 from helpers.utils import getMonth
 from helpers.utils import getYear
 from helpers.utils import calculateNumTabPresses
-from helpers.utils import open_receita_website
+from helpers.utils import open_browser
 
 def access_browser():
-    open_receita_website ()
+    open_browser ('http://www8.receita.fazenda.gov.br/SimplesNacional/Aplicacoes/ATSPO/pgmei.app/Identificacao')
 
 
 def do_login():
@@ -39,7 +39,7 @@ def select_year():
     pyautogui.press ( 'tab', presses=6 )
     pyautogui.press ( 'enter' )
 
-    if not auto & year:
+    if not auto and year:
         actual_year = year
     else:
         if actual_month == 1:

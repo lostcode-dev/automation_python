@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 from generate_das.generate_das import run as run_generate_das
 from emit_nf.emit_nf import run as run_emit_nf
+from pages.config import run as run_config
 
 
 layout = [
@@ -21,6 +22,7 @@ def run():
         if event == "Emitir Nota Fiscal":
             run_emit_nf()
         if event == "Configurações":
+            run_config()
             print("Configurando")
 
     window.close()

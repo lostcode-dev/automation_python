@@ -17,52 +17,46 @@ def returnMonth(month=None):
     else:
         return ""
 
+def run():
+    layout = [
+        [sg.Text ( "Dados Pessoais" )],
+        [sg.Text ( "CNPJ:" ), sg.Input ( size=(14, 1), key="-CNPJ-", enable_events=True )],
+        [sg.Text ( "Gerar DAS" )],
+        [sg.Text ( "Mês:" ), sg.Combo ( returnMonth (), key="-MONTH-", enable_events=True )],
+        [sg.Text ( "Ano:" ), sg.Combo ( select_year (), size=(4, 1), key="-YEAR-" )],
+        [sg.Checkbox ( 'Auto', default=False, key="-AUTO-", enable_events=True )],
+        [sg.Button ( "Salvar", key="-SAVE-", disabled=True )],
+    ]
 
-layout = [
-    [sg.Text("Dados Pessoais")],
-    [sg.Text("CNPJ:"), sg.Input(size=(14, 1), key="-CNPJ-", enable_events=True)],
-    [sg.Text("Gerar DAS")],
-    [sg.Text("Mês:"), sg.Combo(returnMonth(), key="-MONTH-", enable_events=True)],
-    [sg.Text("Ano:"), sg.Combo(select_year(), size=(4, 1), key="-YEAR-")],
-    [sg.Checkbox('Auto', default=False, key="-AUTO-", enable_events=True)],
-    [sg.Button("Salvar", key="-SAVE-", disabled=True)],
-]
+    window = sg.Window ( "Configurações", layout, size=(250, 215) )
 
-window = sg.Window("Configurações", layout, size=(250, 215))
+    config = configparser.ConfigParser ()
+    config.read ( 'env.txt' )
 
-config = configparser.ConfigParser()
-config.read('../env.txt')
+    while True:
+        event, values = window.read ()
+        if event == sg.WIN_CLOSED:
+            break
+        if event == "-CNPJ-":
+            if len ( values["-CNPJ-"] ) == 14:
+                window["-SAVE-"].update ( disabled=False )
+            if len ( values["-CNPJ-"] ) > 14:
+                values["-CNPJ-"] = values["-CNPJ-"][:14]
+                window["-CNPJ-"].update ( value=values["-CNPJ-"] )
+                sg.popup ( 'CNPJ só pode ter no máximo 14 caracteres' )
+        if event == "-AUTO-":
+            if values["-AUTO-"]:
+                window["-MONTH-"].update ( '' )
+                window["-YEAR-"].update ( '' )
+            window["-MONTH-"].update ( disabled=values["-AUTO-"] )
+            window["-YEAR-"].update ( disabled=values["-AUTO-"] )
+        if event == "-SAVE-":
+            config.set ( 'ENV', 'CNPJ', values['-CNPJ-'] )
+            config.set ( 'ENV', 'MONTH', returnMonth ( values['-MONTH-'] ) )
+            config.set ( 'ENV', 'YEAR', values['-YEAR-'] )
+            config.set ( 'ENV', 'AUTO', str ( values['-AUTO-'] ) )
+            with open ( 'env.txt', 'w' ) as configfile:
+                config.write ( configfile )
+            break
+    window.close ()
 
-while True:
-    event, values = window.read()
-    if event == sg.WIN_CLOSED:
-        break
-    if event == "-CNPJ-":
-        if len(values["-CNPJ-"]) == 14:
-            window["-SAVE-"].update(disabled=False)
-        print(values["-CNPJ-"])
-        if len(values["-CNPJ-"]) > 14:
-            values["-CNPJ-"] = values["-CNPJ-"][:14]
-            window["-CNPJ-"].update(value=values["-CNPJ-"])
-            sg.popup('CNPJ só pode ter no máximo 14 caracteres')
-    if event == "-YEAR-":
-        print("-YEAR-")
-    if event == "-AUTO-":
-        if values["-AUTO-"]:
-            window["-MONTH-"].update('')
-            window["-YEAR-"].update('')
-        window["-MONTH-"].update(disabled=values["-AUTO-"])
-        window["-YEAR-"].update(disabled=values["-AUTO-"])
-    if event == "-SAVE-":
-        print("Configurando")
-        config.set('ENV', 'CNPJ', values['-CNPJ-'])
-        config.set('ENV', 'MONTH', returnMonth(values['-MONTH-']))
-        config.set('ENV', 'YEAR', values['-YEAR-'])
-        config.set('ENV', 'AUTO', str(values['-AUTO-']))
-        with open('../env.txt', 'w') as configfile:
-            config.write(configfile)
-            print(configfile)
-        with open('../env.txt', 'r') as configfile:
-            data = configfile.read()
-            print(data)
-window.close()
