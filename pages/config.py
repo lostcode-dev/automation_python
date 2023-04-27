@@ -1,6 +1,24 @@
 import PySimpleGUI as sg
 import datetime
 import configparser
+from helpers.utils import getCnpj
+
+def default_year():
+    with open("env.txt", "r") as configFile:
+        content = configFile.readlines()
+        yearInFile = [i for i in content if "year =" in i]
+        return yearInFile[0][7:-1]
+
+
+def default_month():
+    with open("env.txt", "r") as configfile:
+        lines = configfile.readlines()
+        monthInFile = [i for i in lines if "month =" in i][0]
+        month_num = int(monthInFile.split('=')[1].strip())
+        months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
+                  'Novembro', 'Dezembro']
+        return months[month_num - 1]
+
 
 def select_year():
     current_year = datetime.datetime.now().year
@@ -19,8 +37,8 @@ def returnMonth(month=None):
 
 def run():
     layout_tab_generate_das = [
-                [sg.Text ( "Mês:" ), sg.Combo ( returnMonth (),  size=(14, 1), key="-MONTH-", enable_events=True )],
-                [sg.Text ( "Ano:" ), sg.Combo ( select_year (), size=(6, 1), key="-YEAR-" )],
+                [sg.Text ( "Mês:" ), sg.Combo ( returnMonth (), default_value=default_month(), size=(14, 1), key="-MONTH-", enable_events=True )],
+                [sg.Text ( "Ano:" ), sg.Combo ( select_year (), default_value=default_year(), size=(6, 1), key="-YEAR-" )],
                 [sg.Checkbox ( 'Auto', default=False, key="-AUTO-", enable_events=True)],
             ]
 
@@ -28,7 +46,7 @@ def run():
 
     layout = [
         [sg.Text ( "Dados Pessoais" )],
-        [sg.Text ( "CNPJ:" ), sg.Input ( size=(14, 1), key="-CNPJ-", enable_events=True, expand_x=True )],
+        [sg.Text ( "CNPJ:" ), sg.Input ( size=(14, 1), default_text=getCnpj(), key="-CNPJ-", enable_events=True, expand_x=True )],
         [sg.TabGroup ([[
             sg.Tab ( 'Gerar DAS', layout_tab_generate_das),
             sg.Tab ( 'Emitir NF',  layout_tab_emit_nf)
@@ -47,8 +65,8 @@ def run():
         if event == sg.WIN_CLOSED:
             break
         if event == "-CNPJ-":
-            if len ( values["-CNPJ-"] ) == 14:
-                window["-SAVE-"].update ( disabled=False )
+            if len(values["-CNPJ-"]) == 14:
+                window["-SAVE-"].update(disabled=False)
             if len ( values["-CNPJ-"] ) > 14:
                 values["-CNPJ-"] = values["-CNPJ-"][:14]
                 window["-CNPJ-"].update ( value=values["-CNPJ-"] )
