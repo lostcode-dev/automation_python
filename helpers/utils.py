@@ -54,7 +54,7 @@ def getMonth():
         containsData = monthInFile[8:-1]  != ''
 
         if containsData and int(monthInFile[8:-1]) > 0:
-            return int(monthInFile[0][8:-1])
+            return int(monthInFile[8:-1])
         else:
             return 0
 
@@ -66,7 +66,7 @@ def getYear():
         containsData = yearInFile[7:-1]  != ''
 
         if containsData and int(yearInFile[7:-1]) > 0:
-            return int(yearInFile[0][7:-1])
+            return int(yearInFile[7:-1])
         else:
             return 0
 

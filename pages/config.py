@@ -2,12 +2,7 @@ import PySimpleGUI as sg
 import datetime
 import configparser
 from helpers.utils import getCnpj
-
-def default_year():
-    with open("env.txt", "r") as configFile:
-        content = configFile.readlines()
-        yearInFile = [i for i in content if "year =" in i]
-        return yearInFile[0][7:-1]
+from helpers.utils import getYear
 
 
 def default_month():
@@ -35,14 +30,20 @@ def returnMonth(month=None):
     else:
         return ""
 
+
 def run():
     layout_tab_generate_das = [
                 [sg.Text ( "Mês:" ), sg.Combo ( returnMonth (), default_value=default_month(), size=(14, 1), key="-MONTH-", enable_events=True )],
-                [sg.Text ( "Ano:" ), sg.Combo ( select_year (), default_value=default_year(), size=(6, 1), key="-YEAR-" )],
+                [sg.Text ( "Ano:" ), sg.Combo ( select_year (), default_value=getYear(), size=(6, 1), key="-YEAR-" )],
                 [sg.Checkbox ( 'Auto', default=False, key="-AUTO-", enable_events=True)],
             ]
 
     layout_tab_emit_nf = [ [sg.Text ( "Emitit NF" )]]
+
+    if len(getCnpj()) == 14:
+        btn_disabled = False
+    else:
+        btn_disabled = True
 
     layout = [
         [sg.Text ( "Dados Pessoais" )],
@@ -52,7 +53,7 @@ def run():
             sg.Tab ( 'Emitir NF',  layout_tab_emit_nf)
         ]], expand_x=True)],
 
-        [sg.Button ( "Salvar", key="-SAVE-", disabled=True )],
+        [sg.Button ( "Salvar", key="-SAVE-", disabled=btn_disabled )],
     ]
 
     window = sg.Window ( "Configurações", layout, size=(250, 215) )
@@ -66,7 +67,7 @@ def run():
             break
         if event == "-CNPJ-":
             if len(values["-CNPJ-"]) == 14:
-                window["-SAVE-"].update(disabled=False)
+                window['-SAVE-'].update(disabled=False)
             if len ( values["-CNPJ-"] ) > 14:
                 values["-CNPJ-"] = values["-CNPJ-"][:14]
                 window["-CNPJ-"].update ( value=values["-CNPJ-"] )
@@ -86,4 +87,3 @@ def run():
                 config.write ( configfile )
             break
     window.close ()
-
