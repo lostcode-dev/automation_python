@@ -4,14 +4,14 @@ import configparser
 from helpers.utils import getCnpj
 from helpers.utils import getYear
 
+months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
+          'Novembro', 'Dezembro']
 
 def default_month():
     with open("env.txt", "r") as configfile:
         lines = configfile.readlines()
         monthInFile = [i for i in lines if "month =" in i][0]
         month_num = int(monthInFile.split('=')[1].strip())
-        months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
-                  'Novembro', 'Dezembro']
         return months[month_num - 1]
 
 
@@ -22,7 +22,6 @@ def select_year():
 
 
 def returnMonth(month=None):
-    months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
     if month is None:
         return months
     elif month in months:
@@ -40,11 +39,6 @@ def run():
 
     layout_tab_emit_nf = [ [sg.Text ( "Emitit NF" )]]
 
-    if len(getCnpj()) == 14:
-        btn_disabled = False
-    else:
-        btn_disabled = True
-
     layout = [
         [sg.Text ( "Dados Pessoais" )],
         [sg.Text ( "CNPJ:" ), sg.Input ( size=(14, 1), default_text=getCnpj(), key="-CNPJ-", enable_events=True, expand_x=True )],
@@ -53,7 +47,7 @@ def run():
             sg.Tab ( 'Emitir NF',  layout_tab_emit_nf)
         ]], expand_x=True)],
 
-        [sg.Button ( "Salvar", key="-SAVE-", disabled=btn_disabled )],
+        [sg.Button ( "Salvar", key="-SAVE-")],
     ]
 
     window = sg.Window ( "Configurações", layout, size=(250, 215) )
@@ -68,6 +62,8 @@ def run():
         if event == "-CNPJ-":
             if len(values["-CNPJ-"]) == 14:
                 window['-SAVE-'].update(disabled=False)
+            if len(values["-CNPJ-"]) < 14:
+                window['-SAVE-'].update(disabled=True)
             if len ( values["-CNPJ-"] ) > 14:
                 values["-CNPJ-"] = values["-CNPJ-"][:14]
                 window["-CNPJ-"].update ( value=values["-CNPJ-"] )
