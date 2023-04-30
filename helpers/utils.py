@@ -90,3 +90,10 @@ def get_cpf():
         content = configFile.readlines()
         cpfInFile = [i for i in content if "cpf =" in i]
         return cpfInFile[0][6:-1]
+
+
+def get_pwd():
+    with open("env.txt", "r") as configFile:
+        content = configFile.readlines()
+        pwdInFile = [i for i in content if "pwd =" in i]
+        return pwdInFile[0][6:-1]
