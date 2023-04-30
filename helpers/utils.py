@@ -22,7 +22,7 @@ def loading_screen(screen: object, image_error: object = "") -> object:
         if error:
             close_tab()
             exit()
-        if count == 10:
+        if count == 4:
             break
 
 
