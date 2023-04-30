@@ -83,3 +83,10 @@ def open_browser(link):
         os.system('google-chrome {}'.format(link))
     elif platform.system() == 'Darwin':
         os.system('open -a /Applications/Google\ Chrome.app {}'.format(link))
+
+
+def get_cpf():
+    with open("env.txt", "r") as configFile:
+        content = configFile.readlines()
+        cpfInFile = [i for i in content if "cpf =" in i]
+        return cpfInFile[0][6:-1]
