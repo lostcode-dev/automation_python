@@ -7,6 +7,7 @@ def close_tab():
     pyautogui.keyDown('ctrl')
     pyautogui.press('w')
     pyautogui.keyUp('ctrl')
+    # pyautogui.press('enter')
 
 
 def loading_screen(screen: object, image_error: object = "") -> object:
@@ -71,18 +72,17 @@ def getYear():
 
 
 def calculateNumTabPresses(month):
-    month_pay = 12 if month == 1 else month - 1
-    num_presses = 7 + (2*month_pay)
+    num_presses = 7 + (2*month)
     return num_presses
 
 
 def open_browser(link):
     if platform.system() == 'Windows':
-        os.system('start chrome {}'.format(link))
+        os.system('start chrome --incognito {}'.format(link))
     elif platform.system() == 'Linux':
-        os.system('google-chrome {}'.format(link))
+        os.system('google-chrome -- incognito {}'.format(link))
     elif platform.system() == 'Darwin':
-        os.system('open -a /Applications/Google\ Chrome.app {}'.format(link))
+        os.system('open -a /Applications/Google\\ Chrome.app --args --incognito {}'.format(link))
 
 
 def get_cpf():

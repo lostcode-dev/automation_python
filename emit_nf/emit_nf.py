@@ -2,16 +2,14 @@ import pyautogui
 from helpers.utils import close_tab
 from helpers.utils import loading_screen
 from helpers.utils import get_cpf
-from helpers.utils import getAuto
 from helpers.utils import open_browser
 from helpers.utils import get_pwd
+
 
 def access_browser_nf():
     open_browser('https://iss.fortaleza.ce.gov.br/grpfor/login.seam')
 
-#Possibilidade de já abrir na tela de imprimir NF, caso site recem logado com sucesso:
 
-#Primeiro acesso:
 def do_login_nf():
     cpf = get_cpf()
     pwd = get_pwd()
@@ -37,6 +35,7 @@ def click_emit_nf():
     # Verificar erro de carregamento infinito no inicio da tela click gerar NF
     pyautogui.sleep(1)
     pyautogui.press('F5')
+    pyautogui.sleep(1)
 
 
 def run():
@@ -44,3 +43,5 @@ def run():
     do_login_nf()
     click_emit_nf()
     print('Rodando Script')
+
+    # close_tab()
