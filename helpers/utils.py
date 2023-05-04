@@ -97,3 +97,10 @@ def get_pwd():
         content = configFile.readlines()
         pwdInFile = [i for i in content if "pwd =" in i]
         return pwdInFile[0][6:-1]
+
+
+def get_client_cnpj():
+    with open("env.txt", "r") as configFile:
+        content = configFile.readlines()
+        client_cnpj_in_file = [i for i in content if "client_cnpj =" in i]
+        return client_cnpj_in_file[0][14:-1]

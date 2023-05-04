@@ -4,7 +4,7 @@ from helpers.utils import loading_screen
 from helpers.utils import get_cpf
 from helpers.utils import open_browser
 from helpers.utils import get_pwd
-
+from helpers.utils import get_client_cnpj
 
 def access_browser_nf():
     open_browser('https://iss.fortaleza.ce.gov.br/grpfor/login.seam')
@@ -36,12 +36,31 @@ def click_emit_nf():
     pyautogui.sleep(1)
     pyautogui.press('F5')
     pyautogui.sleep(1)
+    pyautogui.press('tab', presses=15)
+    pyautogui.press('enter')
+
+
+def emit_nf_data():
+    pyautogui.sleep(0.5)
+    pyautogui.press('tab', presses=15)
+    pyautogui.press('right')
+    pyautogui.press('pgdn') #Corrigir erro na página caso barra de rolagem não esteja no final
+    pyautogui.press('tab')
+    cnpj_client = get_client_cnpj()
+    pyautogui.typewrite(cnpj_client)
+    pyautogui.press('down')
+    pyautogui.sleep(1)
+    pyautogui.press('tab')
+
+
+
 
 
 def run():
     access_browser_nf()
     do_login_nf()
     click_emit_nf()
+    emit_nf_data()
     print('Rodando Script')
 
     # close_tab()
