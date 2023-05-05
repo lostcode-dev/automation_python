@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 from generate_das.generate_das import run as run_generate_das
-from emit_nf.emit_nf import run as run_emit_nf
+from iss_fortal.emit_nf import run as run_emit_nf
 from pages.config import run as run_config
 
 
