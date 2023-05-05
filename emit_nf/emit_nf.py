@@ -6,6 +6,7 @@ from helpers.utils import open_browser
 from helpers.utils import get_pwd
 from helpers.utils import get_client_cnpj
 
+
 def access_browser_nf():
     open_browser('https://iss.fortaleza.ce.gov.br/grpfor/login.seam')
 
@@ -48,11 +49,25 @@ def emit_nf_data():
     pyautogui.press('tab')
     cnpj_client = get_client_cnpj()
     pyautogui.typewrite(cnpj_client)
+    pyautogui.sleep(0.5)
     pyautogui.press('down')
     pyautogui.sleep(1)
     pyautogui.press('tab')
 
 
+def click_service_screen():
+    pyautogui.sleep(2)
+    service_layout = pyautogui.locateOnScreen('images/service_screen.png', confidence=0.9)
+    service_layout_center = pyautogui.center(service_layout)
+    pyautogui.click(service_layout_center.x, service_layout_center.y)
+
+
+def service_data():
+    pyautogui.press('tab', presses=3)
+    pyautogui.press('down')
+
+
+    exit()
 
 
 
@@ -61,6 +76,8 @@ def run():
     do_login_nf()
     click_emit_nf()
     emit_nf_data()
+    click_service_screen()
+    service_data()
     print('Rodando Script')
 
     # close_tab()

@@ -3,6 +3,7 @@ import datetime
 import configparser
 from helpers.utils import getCnpj
 from helpers.utils import getYear
+from helpers.utils import get_client_cnpj
 
 months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
           'Novembro', 'Dezembro']
@@ -37,8 +38,8 @@ def run():
                 [sg.Checkbox ( 'Auto', default=False, key="-AUTO-", enable_events=True)],
             ]
 
-    layout_tab_emit_nf = [ [sg.Text ( "Emitit NF" )]]
-
+    layout_tab_emit_nf = [ [sg.Text ( "CNPJ (Cliente): " ), sg.Input(size=(14, 1), default_text=get_client_cnpj(), key="-CLIENT-", enable_events=True, expand_x=True)],
+                           [sg.Text ("R$: "), sg.Input(size=(6, 1), key="-PAYMENT-", enable_events=True, expand_x=True)]]
     layout = [
         [sg.Text ( "Dados Pessoais" )],
         [sg.Text ( "CNPJ:" ), sg.Input ( size=(14, 1), default_text=getCnpj(), key="-CNPJ-", enable_events=True, expand_x=True )],
@@ -79,7 +80,11 @@ def run():
             config.set ( 'ENV', 'MONTH', returnMonth ( values['-MONTH-'] ) )
             config.set ( 'ENV', 'YEAR', values['-YEAR-'] )
             config.set ( 'ENV', 'AUTO', str ( values['-AUTO-'] ) )
+            config.set('ENV', 'CLIENT_CNPJ', values['-CLIENT-'])
             with open ( 'env.txt', 'w' ) as configfile:
                 config.write ( configfile )
             break
+        # if event == "-CLIENT":
+        # if event == "-PAYMENT-":
+
     window.close ()
