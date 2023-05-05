@@ -8,6 +8,7 @@ from helpers.utils import getMonth
 from helpers.utils import getYear
 from helpers.utils import calculateNumTabPresses
 from helpers.utils import open_browser
+from pages.config import run as run_config
 
 def access_browser():
     open_browser ('http://www8.receita.fazenda.gov.br/SimplesNacional/Aplicacoes/ATSPO/pgmei.app/Identificacao')
@@ -17,16 +18,23 @@ def do_login():
     cnpj = getCnpj ()
 
     loading_screen ( 'login' )
+    pyautogui.sleep(1)
     pyautogui.typewrite ( cnpj )
     pyautogui.press ( 'tab', presses=3 )
     pyautogui.press ( 'enter' )
 
 
 def click_emit_guia():
+    loading_screen('cnpj_warning')
+    warning = pyautogui.locateCenterOnScreen('images/cnpj_warning.png', confidence=0.95)
+    if warning:
+        pyautogui.alert('CNPJ incorreto! Corrija e tente novamente.')
+        close_tab()
+        run_config()
+        run()
     loading_screen ( 'home' )
     pyautogui.press ( 'tab', presses=2 )
     pyautogui.press ( 'enter' )
-
 
 def select_year():
     auto = getAuto ()

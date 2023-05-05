@@ -22,7 +22,7 @@ def loading_screen(screen: object, image_error: object = "") -> object:
         if error:
             close_tab()
             exit()
-        if count == 10:
+        if count == 4:
             break
 
 
@@ -38,10 +38,9 @@ def getAuto():
     with open("env.txt", "r") as configFile:
         content = configFile.readlines()
         autoInFile = [i for i in content if "auto =" in i][0]
-        containsData = autoInFile[7:-1].lower()  != ''
         itsTrue = autoInFile[7:-1].lower() == "true"
 
-        if containsData and itsTrue:
+        if itsTrue:
             return True
         else:
             return False
