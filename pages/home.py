@@ -12,6 +12,7 @@ layout = [
 
 window = sg.Window("MEI Automation", layout, size=(270, 120))
 
+
 def run():
     while True:
         event, value = window.read()
