@@ -51,7 +51,7 @@ def select_year():
         actual_year = year
     else:
         if actual_month == 1:
-            actual_year = actual_year - 1
+            actual_year -= 1
 
     pyautogui.sleep ( 0.3 )
     positionYear = {
@@ -81,6 +81,8 @@ def click_checkbox_month():
     else:
         if actual_month == 1:
             actual_month = 12
+        else:
+            actual_month -= 1
 
     loading_screen ( 'component_header_month' )
     pyautogui.press ( 'tab', calculateNumTabPresses ( actual_month ) )
@@ -111,3 +113,4 @@ def run():
     download_pdf ()
 
     close_tab ()
+    exit()
