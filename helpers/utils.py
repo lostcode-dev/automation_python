@@ -104,3 +104,10 @@ def get_client_cnpj():
         content = configFile.readlines()
         client_cnpj_in_file = [i for i in content if "client_cnpj =" in i]
         return client_cnpj_in_file[0][14:-1]
+
+
+def get_payment():
+    with open("env.txt", "r") as configFile:
+        content = configFile.readlines()
+        payment_in_file = [i for i in content if "payment =" in i]
+        return payment_in_file[0][10:-1]

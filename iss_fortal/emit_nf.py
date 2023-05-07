@@ -5,6 +5,10 @@ from helpers.utils import get_cpf
 from helpers.utils import open_browser
 from helpers.utils import get_pwd
 from helpers.utils import get_client_cnpj
+from datetime import datetime
+import locale
+import calendar
+from helpers.utils import get_payment
 
 
 def access_browser_nf():
@@ -46,6 +50,7 @@ def emit_nf_data():
     pyautogui.press('tab', presses=15)
     pyautogui.press('right')
     pyautogui.press('pgdn') #Corrigir erro na página caso barra de rolagem não esteja no final
+    pyautogui.sleep(0.5)
     pyautogui.press('tab')
     cnpj_client = get_client_cnpj()
     pyautogui.typewrite(cnpj_client)
@@ -65,7 +70,18 @@ def click_service_screen():
 def service_data():
     pyautogui.press('tab', presses=3)
     pyautogui.press('down')
-
+    locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
+    current_month = datetime.now().month
+    month_name = calendar.month_name[current_month].upper()
+    message = f'SERVICOS PRESTADOS REFERENTE AO MES DE {month_name} PARA FORTICS.'
+    pyautogui.sleep(0.5)
+    pyautogui.press('tab', presses=3)
+    pyautogui.typewrite(message)
+    pyautogui.press('tab', presses=8)
+    payment = get_payment()
+    pyautogui.typewrite(payment)
+    pyautogui.press('tab', presses=10)
+    pyautogui.press('enter')
 
     # exit()
 
