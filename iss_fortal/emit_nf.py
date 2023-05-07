@@ -87,9 +87,8 @@ def service_data():
     pyautogui.typewrite(payment)
     print(payment)
     exit()
-    # pyautogui.press('tab', presses=10)
+    pyautogui.press('tab', presses=10)
     # pyautogui.press('enter')
-
 
 
 def run():
