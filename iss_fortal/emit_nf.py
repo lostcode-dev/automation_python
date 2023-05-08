@@ -19,21 +19,23 @@ def do_login_nf():
     cpf = get_cpf()
     pwd = get_pwd()
     loading_screen('login_nf')
-    pyautogui.press('tab', presses=2)
-    pyautogui.typewrite(cpf)
-    pyautogui.press('tab')
-    pyautogui.typewrite(pwd)
-    pyautogui.press('tab')
-    #Verificar captcha (procurar outra forma melhor depois):
-    captcha = pyautogui.prompt(text='Digite os caracteres da captcha:', title='Captcha', default='')
-    captcha_uppercase = captcha.upper()
-    pyautogui.write(captcha_uppercase)
-    pyautogui.press('enter')
-    #Em caso de erro de qualquer dado inserido:
-    # loading_screen('invalid_data_nf')
-    # warning = pyautogui.locateOnScreen('images/invalid_data_nf.png', confidence=0.95)
-    # if warning:
-    #     pass
+    button_location = pyautogui.locateOnScreen('images/btn_login_nf.png')
+    if button_location:
+        pyautogui.press('tab', presses=2)
+        pyautogui.typewrite(cpf)
+        pyautogui.press('tab')
+        pyautogui.typewrite(pwd)
+        pyautogui.press('tab')
+        #Verificar captcha (procurar outra forma melhor depois):
+        captcha = pyautogui.prompt(text='Digite os caracteres da captcha:', title='Captcha', default='')
+        captcha_uppercase = captcha.upper()
+        pyautogui.write(captcha_uppercase)
+        pyautogui.press('enter')
+        #Em caso de erro de qualquer dado inserido:
+        # loading_screen('invalid_data_nf')
+        # warning = pyautogui.locateOnScreen('images/invalid_data_nf.png', confidence=0.95)
+        # if warning:
+        #     pass
 
 
 def click_emit_nf():
@@ -46,11 +48,11 @@ def click_emit_nf():
 
 
 def emit_nf_data():
-    pyautogui.sleep(0.5)
+    pyautogui.sleep(1)
     pyautogui.press('tab', presses=15)
     pyautogui.press('right')
     pyautogui.press('pgdn') #Corrigir erro na página caso barra de rolagem não esteja no final
-    pyautogui.sleep(0.5)
+    pyautogui.sleep(1)
     pyautogui.press('tab')
     cnpj_client = get_client_cnpj()
     pyautogui.typewrite(cnpj_client)
@@ -78,12 +80,15 @@ def service_data():
     pyautogui.press('tab', presses=3)
     pyautogui.typewrite(message)
     pyautogui.press('tab', presses=8)
+    # pyautogui.keyDown('ctrl')
+    # pyautogui.press('a')
+    # pyautogui.keyUp('ctrl')
     payment = get_payment()
     pyautogui.typewrite(payment)
+    print(payment)
+    exit()
     pyautogui.press('tab', presses=10)
-    pyautogui.press('enter')
-
-    # exit()
+    # pyautogui.press('enter')
 
 
 def run():

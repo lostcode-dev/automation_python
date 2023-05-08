@@ -78,11 +78,11 @@ def calculateNumTabPresses(month):
 
 def open_browser(link):
     if platform.system() == 'Windows':
-        os.system('start chrome --incognito {}'.format(link))
+        os.system('start chrome {}'.format(link))
     elif platform.system() == 'Linux':
-        os.system('google-chrome -- incognito {}'.format(link))
+        os.system('google-chrome {}'.format(link))
     elif platform.system() == 'Darwin':
-        os.system('open -a /Applications/Google\\ Chrome.app --args --incognito {}'.format(link))
+        os.system('open -a /Applications/Google\\ Chrome.app {}'.format(link))
 
 
 def get_cpf():
@@ -110,4 +110,19 @@ def get_payment():
     with open("env.txt", "r") as configFile:
         content = configFile.readlines()
         payment_in_file = [i for i in content if "payment =" in i]
-        return payment_in_file[0][10:-1]
+        payment_value = payment_in_file[0][10:-1]
+        payment_value = payment_value.replace(".", "").replace(",", ".")  # retirar ponto das milhares e converte vírgula para ponto
+
+        if "," not in payment_value and "." not in payment_value:
+            corrected_payment = int(payment_value) * 100
+        else:
+            num_decimals = len(payment_value.split(".")[1])
+
+            if num_decimals == 1:
+                factor = 10
+            elif num_decimals == 2:
+                factor = 1
+
+            corrected_payment = float(payment_value) * factor
+
+        return str(corrected_payment)
