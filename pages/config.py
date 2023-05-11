@@ -6,7 +6,8 @@ from helpers.utils import getYear
 from helpers.utils import get_cpf
 from helpers.utils import get_pwd
 from helpers.utils import get_client_cnpj
-from helpers.utils import get_payment
+from babel.numbers import format_currency
+
 
 months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
           'Novembro', 'Dezembro']
@@ -34,26 +35,14 @@ def returnMonth(month=None):
         return ""
 
 
-def user_read_payment():
+def saved_payment():
     with open("env.txt", "r") as configFile:
         content = configFile.readlines()
         payment_in_file = [i for i in content if "payment =" in i]
-        payment_value = payment_in_file[0][10:-1]
-        # payment_value = payment_value.replace(".", "").replace(",", ".")  # retirar ponto das milhares e converte vírgula para ponto
-
-        if "," not in payment_value and "." not in payment_value:
-            corrected_payment = int(payment_value) / 100
-        else:
-            num_decimals = len(payment_value.split(".")[1])
-
-            if num_decimals == 1:
-                factor = 10
-            elif num_decimals == 2:
-                factor = 1
-
-            corrected_payment = float(payment_value) / factor
-
-        return str(corrected_payment)
+        saved_value = payment_in_file[0][13:-1]
+        saved_value = saved_value.replace(".", "")
+        print(saved_value)
+        return str(saved_value)
 
 
 def run():
@@ -66,7 +55,7 @@ def run():
     layout_tab_emit_nf = [
         [sg.Text ( "Password:" ), sg.Input ( size=(8, 1), default_text=get_pwd() ,key="-PASSWORD-", enable_events=True, expand_x=True )],
         [sg.Text ( "CNPJ:" ), sg.Input ( size=(8, 1), default_text=get_client_cnpj(), key='-CLIENT_CNPJ-', enable_events=True, expand_x=True )],
-        [sg.Text("Serviço R$:"), sg.Input(size=(8,1), default_text=user_read_payment(), key="-PAYMENT-", enable_events=True, expand_x=True)],
+        [sg.Text("Serviço R$:"), sg.Input(size=(8,1), default_text=saved_payment(), key="-PAYMENT-", enable_events=True, expand_x=True)],
     ]
 
     layout = [
@@ -113,11 +102,11 @@ def run():
             config.set('ENV', 'CPF', values["-CPF-"])
             config.set('ENV', 'PWD', values["-PASSWORD-"])
             config.set('ENV', 'CLIENT_CNPJ', values['-CLIENT_CNPJ-'])
-            config.set('ENV', 'PAYMENT', values['-PAYMENT-'])
+            pay = format_currency(float(values["-PAYMENT-"].replace(',', '.')), 'BRL', locale='pt_BR')
+            config.set('ENV', "PAYMENT", str(pay))
             with open ( 'env.txt', 'w' ) as configfile:
                 config.write ( configfile )
             break
-        # if event == "-CLIENT":
-        # if event == "-PAYMENT-":
+
 
     window.close ()
