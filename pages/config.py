@@ -12,6 +12,7 @@ from babel.numbers import format_currency
 months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
           'Novembro', 'Dezembro']
 
+
 def default_month():
     with open("env.txt", "r") as configfile:
         lines = configfile.readlines()
