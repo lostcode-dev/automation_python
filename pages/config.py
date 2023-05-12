@@ -7,7 +7,8 @@ from helpers.utils import get_cpf
 from helpers.utils import get_pwd
 from helpers.utils import get_client_cnpj
 from babel.numbers import format_currency
-
+from helpers.utils import get_email
+from helpers.utils import get_clockify_pwd
 
 months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
           'Novembro', 'Dezembro']
@@ -60,8 +61,8 @@ def run():
     ]
 
     layout_clockify = [
-        [sg.Text("Email:"), sg.Input(size=(25, 1), key="-EMAIL-", enable_events=True, expand_x=True)],
-        [sg.Text("Password:"), sg.Input(size=(10, 1), key="-CLOCKIFY_PWD-", enable_events=True, expand_x=True)]
+        [sg.Text("Email:"), sg.Input(size=(25, 1), default_text=get_email() , key="-EMAIL-", enable_events=True, expand_x=True)],
+        [sg.Text("Password:"), sg.Input(size=(10, 1), default_text=get_clockify_pwd(), key="-CLOCKIFY_PWD-", enable_events=True, expand_x=True)]
     ]
 
     layout = [
