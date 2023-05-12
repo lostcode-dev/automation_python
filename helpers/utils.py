@@ -113,3 +113,4 @@ def get_payment():
         payment_value = payment_in_file[0][10:-1]
 
         return str(payment_value)
+

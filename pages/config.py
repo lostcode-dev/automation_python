@@ -61,7 +61,7 @@ def run():
 
     layout_clockify = [
         [sg.Text("Email:"), sg.Input(size=(25, 1), key="-EMAIL-", enable_events=True, expand_x=True)],
-        [sg.Text("Password:"), sg.Input(size=(10, 1), key="-CLOCKIFY_PWD", enable_events=True, expand_x=True)]
+        [sg.Text("Password:"), sg.Input(size=(10, 1), key="-CLOCKIFY_PWD-", enable_events=True, expand_x=True)]
     ]
 
     layout = [
@@ -111,6 +111,9 @@ def run():
             config.set('ENV', 'CLIENT_CNPJ', values['-CLIENT_CNPJ-'])
             pay = format_currency(float(values["-PAYMENT-"].replace(',', '.')), 'BRL', locale='pt_BR')
             config.set('ENV', "PAYMENT", str(pay))
+            config.set('ENV', 'EMAIL', values["-EMAIL-"])
+            config.set('ENV', 'CLOCKIFY_PWD', values["-CLOCKIFY_PWD-"])
+
             with open ( 'env.txt', 'w' ) as configfile:
                 config.write ( configfile )
             break
