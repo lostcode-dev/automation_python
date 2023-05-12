@@ -59,13 +59,19 @@ def run():
         [sg.Text("Serviço R$:"), sg.Input(size=(8,1), default_text=saved_payment(), key="-PAYMENT-", enable_events=True, expand_x=True)],
     ]
 
+    layout_clockify = [
+        [sg.Text("Email:"), sg.Input(size=(25, 1), key="-EMAIL-", enable_events=True, expand_x=True)],
+        [sg.Text("Password:"), sg.Input(size=(10, 1), key="-CLOCKIFY_PWD", enable_events=True, expand_x=True)]
+    ]
+
     layout = [
         [sg.Text ( "Dados Pessoais" )],
         [sg.Text ( "CNPJ:" ), sg.Input ( size=(14, 1), default_text=getCnpj(), key="-CNPJ-", enable_events=True, expand_x=True )],
         [sg.Text("CPF:"), sg.Input(size=(8, 1), default_text=get_cpf(), key="-CPF-", enable_events=True, expand_x=True)],
         [sg.TabGroup ([[
             sg.Tab ( 'Gerar DAS', layout_tab_generate_das),
-            sg.Tab ( 'Emitir NF',  layout_tab_emit_nf)
+            sg.Tab ( 'Emitir NF',  layout_tab_emit_nf),
+            sg.Tab('Clockify', layout_clockify)
         ]], expand_x=True)],
 
         [sg.Button ( "Salvar", key="-SAVE-")],
