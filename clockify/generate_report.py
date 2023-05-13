@@ -11,3 +11,6 @@
 #CLICK EM "EXPORT" E DEPOIS "SAVE AS A PDF"
 
 #RENOMEAR ARQUIVO COM O NOME>: "..."
+
+def run():
+    pass

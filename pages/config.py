@@ -7,7 +7,8 @@ from helpers.utils import get_cpf
 from helpers.utils import get_pwd
 from helpers.utils import get_client_cnpj
 from babel.numbers import format_currency
-
+from helpers.utils import get_email
+from helpers.utils import get_clockify_pwd
 
 months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
           'Novembro', 'Dezembro']
@@ -59,13 +60,19 @@ def run():
         [sg.Text("Serviço R$:"), sg.Input(size=(8,1), default_text=saved_payment(), key="-PAYMENT-", enable_events=True, expand_x=True)],
     ]
 
+    layout_clockify = [
+        [sg.Text("Email:"), sg.Input(size=(25, 1), default_text=get_email() , key="-EMAIL-", enable_events=True, expand_x=True)],
+        [sg.Text("Password:"), sg.Input(size=(10, 1), default_text=get_clockify_pwd(), key="-CLOCKIFY_PWD-", enable_events=True, expand_x=True)]
+    ]
+
     layout = [
         [sg.Text ( "Dados Pessoais" )],
         [sg.Text ( "CNPJ:" ), sg.Input ( size=(14, 1), default_text=getCnpj(), key="-CNPJ-", enable_events=True, expand_x=True )],
         [sg.Text("CPF:"), sg.Input(size=(8, 1), default_text=get_cpf(), key="-CPF-", enable_events=True, expand_x=True)],
         [sg.TabGroup ([[
             sg.Tab ( 'Gerar DAS', layout_tab_generate_das),
-            sg.Tab ( 'Emitir NF',  layout_tab_emit_nf)
+            sg.Tab ( 'Emitir NF',  layout_tab_emit_nf),
+            sg.Tab('Clockify', layout_clockify)
         ]], expand_x=True)],
 
         [sg.Button ( "Salvar", key="-SAVE-")],
@@ -105,6 +112,9 @@ def run():
             config.set('ENV', 'CLIENT_CNPJ', values['-CLIENT_CNPJ-'])
             pay = format_currency(float(values["-PAYMENT-"].replace(',', '.')), 'BRL', locale='pt_BR')
             config.set('ENV', "PAYMENT", str(pay))
+            config.set('ENV', 'EMAIL', values["-EMAIL-"])
+            config.set('ENV', 'CLOCKIFY_PWD', values["-CLOCKIFY_PWD-"])
+
             with open ( 'env.txt', 'w' ) as configfile:
                 config.write ( configfile )
             break

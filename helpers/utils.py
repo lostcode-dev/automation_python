@@ -113,3 +113,17 @@ def get_payment():
         payment_value = payment_in_file[0][10:-1]
 
         return str(payment_value)
+
+
+def get_email():
+    with open("env.txt", "r") as configFile:
+        content = configFile.readlines()
+        email_in_file = [i for i in content if "email =" in i]
+        return email_in_file[0][8:-1]
+
+
+def get_clockify_pwd():
+    with open("env.txt", "r") as configFile:
+        content = configFile.readlines()
+        clockify_pwd_in_file = [i for i in content if "clockify_pwd =" in i]
+        return clockify_pwd_in_file[0][15:-1]

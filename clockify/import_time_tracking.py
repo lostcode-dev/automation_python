@@ -19,3 +19,6 @@
 #6 DATE
 
 #7: CLICK ADD
+
+def run():
+    pass
