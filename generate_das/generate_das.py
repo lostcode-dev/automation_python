@@ -10,6 +10,7 @@ from helpers.utils import calculateNumTabPresses
 from helpers.utils import open_browser
 from pages.config import run as run_config
 
+
 def access_browser():
     open_browser ('http://www8.receita.fazenda.gov.br/SimplesNacional/Aplicacoes/ATSPO/pgmei.app/Identificacao')
 
