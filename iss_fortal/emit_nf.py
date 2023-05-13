@@ -47,7 +47,7 @@ def click_emit_nf():
     pyautogui.press('enter')
 
 
-def emit_nf_data():
+def fill_client_data():
     pyautogui.sleep(1)
     pyautogui.press('tab', presses=15)
     pyautogui.press('right')
@@ -62,14 +62,14 @@ def emit_nf_data():
     pyautogui.press('tab')
 
 
-def click_service_screen():
+def click_service_tab():
     pyautogui.sleep(2)
     service_layout = pyautogui.locateOnScreen('images/service_screen.png', confidence=0.9)
     service_layout_center = pyautogui.center(service_layout)
     pyautogui.click(service_layout_center.x, service_layout_center.y)
 
 
-def service_data():
+def fill_service_data():
     pyautogui.press('tab', presses=3)
     pyautogui.press('down')
     locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
@@ -95,9 +95,9 @@ def run():
     access_browser_nf()
     do_login_nf()
     click_emit_nf()
-    emit_nf_data()
-    click_service_screen()
-    service_data()
+    fill_client_data()
+    click_service_tab()
+    fill_service_data()
     print('Rodando Script')
 
     # close_tab()
