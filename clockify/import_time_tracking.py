@@ -1,6 +1,8 @@
 import pyautogui
 from helpers.utils import open_browser
 from helpers.utils import loading_screen
+from helpers.utils import get_email
+from helpers.utils import get_clockify_pwd
 
 
 #ABIR SITE DO CLOCKIFY
@@ -16,10 +18,29 @@ def do_login_clockify():
     loading_screen('clockify_login')
     button_location = pyautogui.locateOnScreen('images/login_google_clockify.png', confidence=0.80)
     button_location_center = pyautogui.center(button_location)
-    print(button_location_center)
     if button_location_center:
-        pyautogui.sleep(1)
+        pyautogui.sleep(2)
         pyautogui.click(button_location_center.x, button_location_center.y)
+        pyautogui.sleep(1.5)
+        loading_screen('another_google_account_clockify')
+        button_another_account = pyautogui.locateOnScreen('images/another_google_account_clockify.png', confidence=0.80)
+        button_another_account_center = pyautogui.center(button_another_account)
+        pyautogui.click(button_another_account_center.x, button_another_account_center.y)
+        pyautogui.sleep(1)
+        pyautogui.keyDown('ctrl')
+        pyautogui.press('a')
+        pyautogui.keyUp('ctrl')
+        email = get_email()
+        pyautogui.typewrite(email)
+        pyautogui.press('enter')
+        pyautogui.sleep(2)
+        pwd = get_clockify_pwd()
+        pyautogui.keyDown('ctrl')
+        pyautogui.press('a')
+        pyautogui.keyUp('ctrl')
+        pyautogui.typewrite(pwd)
+        pyautogui.press('enter')
+
 
 
 #LER EXCEL
