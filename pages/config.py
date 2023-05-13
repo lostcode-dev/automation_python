@@ -3,7 +3,11 @@ import datetime
 import configparser
 from helpers.utils import getCnpj
 from helpers.utils import getYear
+from helpers.utils import get_cpf
+from helpers.utils import get_pwd
 from helpers.utils import get_client_cnpj
+from babel.numbers import format_currency
+
 
 months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
           'Novembro', 'Dezembro']
@@ -31,6 +35,16 @@ def returnMonth(month=None):
         return ""
 
 
+def saved_payment():
+    with open("env.txt", "r") as configFile:
+        content = configFile.readlines()
+        payment_in_file = [i for i in content if "payment =" in i]
+        saved_value = payment_in_file[0][13:-1]
+        saved_value = saved_value.replace(".", "")
+        print(saved_value)
+        return str(saved_value)
+
+
 def run():
     layout_tab_generate_das = [
                 [sg.Text ( "Mês:" ), sg.Combo ( returnMonth (), default_value=default_month(), size=(14, 1), key="-MONTH-", enable_events=True )],
@@ -39,16 +53,15 @@ def run():
             ]
 
     layout_tab_emit_nf = [
-        [sg.Text ( "CPF:" ), sg.Input ( size=(8, 1), key="-CPF-", enable_events=True, expand_x=True )],
-        [sg.Text ( "Password:" ), sg.Input ( size=(8, 1), key="-PASSWORD-", enable_events=True, expand_x=True )],
-        [sg.Text ( "CNPJ:" ), sg.Input ( size=(8, 1), key="-CNPJ_CLIENTE-", enable_events=True, expand_x=True )],
-
+        [sg.Text ( "Password:" ), sg.Input ( size=(8, 1), default_text=get_pwd() ,key="-PASSWORD-", enable_events=True, expand_x=True )],
+        [sg.Text ( "CNPJ:" ), sg.Input ( size=(8, 1), default_text=get_client_cnpj(), key='-CLIENT_CNPJ-', enable_events=True, expand_x=True )],
+        [sg.Text("Serviço R$:"), sg.Input(size=(8,1), default_text=saved_payment(), key="-PAYMENT-", enable_events=True, expand_x=True)],
     ]
-
 
     layout = [
         [sg.Text ( "Dados Pessoais" )],
         [sg.Text ( "CNPJ:" ), sg.Input ( size=(14, 1), default_text=getCnpj(), key="-CNPJ-", enable_events=True, expand_x=True )],
+        [sg.Text("CPF:"), sg.Input(size=(8, 1), default_text=get_cpf(), key="-CPF-", enable_events=True, expand_x=True)],
         [sg.TabGroup ([[
             sg.Tab ( 'Gerar DAS', layout_tab_generate_das),
             sg.Tab ( 'Emitir NF',  layout_tab_emit_nf)
@@ -57,7 +70,7 @@ def run():
         [sg.Button ( "Salvar", key="-SAVE-")],
     ]
 
-    window = sg.Window ( "Configurações", layout, size=(250, 215) )
+    window = sg.Window ( "Configurações", layout, size=(250, 230) )
 
     config = configparser.ConfigParser ()
     config.read ( 'env.txt' )
@@ -86,11 +99,14 @@ def run():
             config.set ( 'ENV', 'MONTH', returnMonth ( values['-MONTH-'] ) )
             config.set ( 'ENV', 'YEAR', values['-YEAR-'] )
             config.set ( 'ENV', 'AUTO', str ( values['-AUTO-'] ) )
-            config.set('ENV', 'CLIENT_CNPJ', values['-CLIENT-'])
+            config.set('ENV', 'CPF', values["-CPF-"])
+            config.set('ENV', 'PWD', values["-PASSWORD-"])
+            config.set('ENV', 'CLIENT_CNPJ', values['-CLIENT_CNPJ-'])
+            pay = format_currency(float(values["-PAYMENT-"].replace(',', '.')), 'BRL', locale='pt_BR')
+            config.set('ENV', "PAYMENT", str(pay))
             with open ( 'env.txt', 'w' ) as configfile:
                 config.write ( configfile )
             break
-        # if event == "-CLIENT":
-        # if event == "-PAYMENT-":
+
 
     window.close ()
