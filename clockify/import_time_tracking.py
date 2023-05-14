@@ -3,6 +3,7 @@ from helpers.utils import open_browser
 from helpers.utils import loading_screen
 from helpers.utils import get_email
 from helpers.utils import get_clockify_pwd
+import pandas as pd
 
 
 #ABIR SITE DO CLOCKIFY
@@ -12,7 +13,7 @@ def access_browser_clockify():
 
 #FAZER LOGIN
 def do_login_clockify():
-    pyautogui.sleep(1)
+    pyautogui.sleep(2)
     pyautogui.press('tab', presses=4)
     pyautogui.press('enter')
     loading_screen('clockify_login')
@@ -42,8 +43,19 @@ def do_login_clockify():
         pyautogui.press('enter')
 
 
-
 #LER EXCEL
+def read_clockify_database():
+    pyautogui.sleep(1)
+    data_table = pd.read_excel('clockify_database.xlsx')
+    day = data_table['DIA']
+    description = data_table['DESCRIÇÃO']
+    project = data_table['PROJETO']
+    tag = data_table['TAGS']
+    start_time = data_table['HORA INICIO']
+    end_time = data_table['HORA FIM']
+    for day, description, project, tags, start_time, end_time in zip(days, descriptions, projects, tags, start_times, end_times):
+        pyautogui.typewrite(description)
+        pyautogui.press
 
 #IMPORTAR CADA LINHA UTILIZANDO A LÓGICA DOS TABS
 
