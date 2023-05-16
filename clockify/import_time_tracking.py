@@ -1,9 +1,8 @@
 import pyautogui
 from helpers.utils import open_browser
 from helpers.utils import loading_screen
-from helpers.utils import get_email
-from helpers.utils import get_clockify_pwd
 import pandas as pd
+from helpers.utils import get_login_clockify
 
 
 #ABIR SITE DO CLOCKIFY
@@ -31,21 +30,14 @@ def do_login_clockify():
         pyautogui.keyDown('ctrl')
         pyautogui.press('a')
         pyautogui.keyUp('ctrl')
-        email = get_email()
-        pyautogui.typewrite(email)
-        pyautogui.press('enter')
-        pyautogui.sleep(2)
-        pwd = get_clockify_pwd()
-        pyautogui.keyDown('ctrl')
-        pyautogui.press('a')
-        pyautogui.keyUp('ctrl')
-        pyautogui.typewrite(pwd)
-        pyautogui.press('enter')
+        get_login_clockify()
 
 
 #LER EXCEL
 def read_clockify_database():
-    pyautogui.sleep(1)
+    loading_screen('clockify_work_page')
+    # Necessário inserir tratamento de erro (demora do site após login em casos eventuais)
+    # Necessário verificar se está em timer(n) ou manual(m) antes do inicio das próximas ações e seguir de acordo
     data_table = pd.read_excel('clockify/clockify_database.xlsx')
     day = data_table['DIA']
     description = data_table['DESCRIÇÃO']
