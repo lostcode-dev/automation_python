@@ -47,6 +47,7 @@ def read_clockify_database():
     start_time = pd.to_datetime(start_time, format='%H:%M:%S').dt.strftime('%H%M')
     end_time = data_table['HORA FIM']
     end_time = pd.to_datetime(end_time, format='%H:%M:%S').dt.strftime('%H%M')
+# IMPORTAR CADA LINHA UTILIZANDO A LÓGICA DOS TABS
     for day, description, project, tag, start_time, end_time in zip(day, description, project, tag, start_time, end_time):
         pyautogui.sleep(1.5)
         pyautogui.typewrite(description)
@@ -63,7 +64,6 @@ def read_clockify_database():
         pyautogui.typewrite(tag)
         pyautogui.sleep(1)
         tag_click = pyautogui.locateOnScreen('images/clockify_select_tag.png', confidence=0.75)
-        print(tag_click)
         tag_click_center = pyautogui.center(tag_click)
         pyautogui.click(tag_click_center.x, tag_click_center.y)
         pyautogui.sleep(1)
@@ -71,26 +71,11 @@ def read_clockify_database():
         pyautogui.typewrite(start_time)
         pyautogui.press('tab')
         pyautogui.typewrite(end_time)
+        pyautogui.press('tab', presses=3)
+        pyautogui.typewrite(day.strftime('%d/%m/%Y'))
         click_add = pyautogui.locateOnScreen('images/clockify_add.png', confidence=0.80)
         pyautogui.click(click_add)
 
-
-
-#IMPORTAR CADA LINHA UTILIZANDO A LÓGICA DOS TABS
-
-#1: DESCRIPTION
-
-#2: PROJECT
-
-#3: TAGS
-
-#4: START TIME
-
-#5: END TIME
-
-#6 DATE
-
-#7: CLICK ADD
 
 def run():
     access_browser_clockify()
