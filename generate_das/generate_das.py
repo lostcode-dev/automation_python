@@ -37,6 +37,7 @@ def click_emit_guia():
     pyautogui.press ( 'tab', presses=2 )
     pyautogui.press ( 'enter' )
 
+
 def select_year():
     auto = getAuto ()
     year = auto if getYear () else 0
