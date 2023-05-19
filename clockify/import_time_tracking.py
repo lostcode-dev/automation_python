@@ -2,7 +2,8 @@ import pyautogui
 from helpers.utils import open_browser
 from helpers.utils import loading_screen
 import pandas as pd
-from helpers.utils import get_login_clockify
+from helpers.utils import fill_login_clockify
+
 
 
 #ABIR SITE DO CLOCKIFY
@@ -30,14 +31,59 @@ def do_login_clockify():
         pyautogui.keyDown('ctrl')
         pyautogui.press('a')
         pyautogui.keyUp('ctrl')
-        get_login_clockify()
+        fill_login_clockify()
+
+
+def fill_description(description): # Necessário inserir tratamento de erro (demora do site após login) e verificar se está em timer(n) ou manual(m)
+    pyautogui.sleep(0.8)
+    pyautogui.typewrite(description)
+
+
+def fill_project(project):
+    pyautogui.sleep(0.5)
+    click_project = pyautogui.locateOnScreen('images/clockify_project.png', confidence=0.80)
+    click_project_center = pyautogui.center(click_project)
+    pyautogui.click(click_project_center.x, click_project_center.y)
+    pyautogui.sleep(0.5)
+    pyautogui.typewrite(project)
+    pyautogui.sleep(1)
+    pyautogui.press('enter')
+
+
+def fill_tag(tag):
+    pyautogui.sleep(0.5)
+    pyautogui.press('tab')
+    pyautogui.typewrite(tag)
+    pyautogui.sleep(0.5)
+    tag_click = pyautogui.locateOnScreen('images/clockify_select_tag.png', confidence=0.75)
+    tag_click_center = pyautogui.center(tag_click)
+    pyautogui.click(tag_click_center.x, tag_click_center.y)
+
+
+def fill_start_time(start_time):
+    pyautogui.sleep(0.5)
+    pyautogui.press('tab', presses=2)
+    pyautogui.typewrite(start_time)
+
+
+def fill_end_time(end_time):
+    pyautogui.press('tab')
+    pyautogui.typewrite(end_time)
+
+
+def fill_date(day):
+    pyautogui.press('tab', presses=3)
+    pyautogui.typewrite(day.strftime('%d/%m/%Y'))
+
+
+def click_bt_add():
+    bt_add = pyautogui.locateOnScreen('images/clockify_add.png', confidence=0.80)
+    pyautogui.click(bt_add)
 
 
 #LER EXCEL
-def read_clockify_database():
+def fill_clockify_data():
     loading_screen('clockify_work_page')
-    # Necessário inserir tratamento de erro (demora do site após login em casos eventuais)
-    # Necessário verificar se está em timer(n) ou manual(m) antes do inicio das próximas ações e seguir de acordo
     data_table = pd.read_excel('clockify/clockify_database.xlsx')
     day = data_table['DIA']
     description = data_table['DESCRIÇÃO']
@@ -47,37 +93,19 @@ def read_clockify_database():
     start_time = pd.to_datetime(start_time, format='%H:%M:%S').dt.strftime('%H%M')
     end_time = data_table['HORA FIM']
     end_time = pd.to_datetime(end_time, format='%H:%M:%S').dt.strftime('%H%M')
+
 # IMPORTAR CADA LINHA UTILIZANDO A LÓGICA DOS TABS
-    for day, description, project, tag, start_time, end_time in zip(day, description, project, tag, start_time, end_time):
-        pyautogui.sleep(1.5)
-        pyautogui.typewrite(description)
-        pyautogui.sleep(1)
-        click_project = pyautogui.locateOnScreen('images/clockify_project.png', confidence=0.80)
-        click_project_center = pyautogui.center(click_project)
-        pyautogui.click(click_project_center.x, click_project_center.y)
-        pyautogui.sleep(1)
-        pyautogui.typewrite(project)
-        pyautogui.sleep(1)
-        pyautogui.press('enter')
-        pyautogui.sleep(1)
-        pyautogui.press('tab')
-        pyautogui.typewrite(tag)
-        pyautogui.sleep(1)
-        tag_click = pyautogui.locateOnScreen('images/clockify_select_tag.png', confidence=0.75)
-        tag_click_center = pyautogui.center(tag_click)
-        pyautogui.click(tag_click_center.x, tag_click_center.y)
-        pyautogui.sleep(1)
-        pyautogui.press('tab', presses=2)
-        pyautogui.typewrite(start_time)
-        pyautogui.press('tab')
-        pyautogui.typewrite(end_time)
-        pyautogui.press('tab', presses=3)
-        pyautogui.typewrite(day.strftime('%d/%m/%Y'))
-        click_add = pyautogui.locateOnScreen('images/clockify_add.png', confidence=0.80)
-        pyautogui.click(click_add)
+    for d, desc, proj, t, start, end in zip(day, description, project, tag, start_time, end_time):
+        fill_description(desc)
+        fill_project(proj)
+        fill_tag(t)
+        fill_start_time(start)
+        fill_end_time(end)
+        fill_date(d)
+        click_bt_add()
 
 
 def run():
     access_browser_clockify()
     do_login_clockify()
-    read_clockify_database()
+    fill_clockify_data()

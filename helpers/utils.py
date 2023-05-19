@@ -129,7 +129,7 @@ def get_clockify_pwd():
         return clockify_pwd_in_file[0][15:-1]
 
 
-def get_login_clockify():
+def fill_login_clockify():
     email = get_email()
     pyautogui.typewrite(email)
     pyautogui.press('enter')
