@@ -127,3 +127,16 @@ def get_clockify_pwd():
         content = configFile.readlines()
         clockify_pwd_in_file = [i for i in content if "clockify_pwd =" in i]
         return clockify_pwd_in_file[0][15:-1]
+
+
+def fill_login_clockify():
+    email = get_email()
+    pyautogui.typewrite(email)
+    pyautogui.press('enter')
+    pyautogui.sleep(2)
+    pwd = get_clockify_pwd()
+    pyautogui.keyDown('ctrl')
+    pyautogui.press('a')
+    pyautogui.keyUp('ctrl')
+    pyautogui.typewrite(pwd)
+    pyautogui.press('enter')
